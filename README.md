@@ -2,7 +2,7 @@
 
 # ESP32 IoT Weather Station
 
-This is a weather station project that uses an ESP32 board and a BMP180 sensor to measure temperature and pressure, and displays the data on a web-based dashboard. The project can be expanded to include other sensors like humidity or wind speed in the future.
+This is a weather station project that uses an ESP32 WROOM 32D board and a BMP180 sensor to measure temperature and pressure, and displays the data on a web-based dashboard. The project can be expanded to include other sensors like humidity or wind speed in the future.
 
 ## Features
 
