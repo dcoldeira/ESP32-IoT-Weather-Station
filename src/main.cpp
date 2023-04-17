@@ -69,15 +69,20 @@ void loop() {
 void handleRoot() {
   // Build the HTML page
   String html = "<html><body>";
-  html += "<h1>BMP085 Sensor Readings</h1>";
-  html += "<p>Temperature: ";
-  html += bmp.readTemperature(), 1;
-  html += " °C</p>";
-  html += "<p>Pressure: ";
-  html += bmp.readPressure() / 100.0F;
-  html += " hPa</p>";
+  html += "<h1 style='text-align:center;'>Weather Station with an ESP32 WROOM 32D and a BMP180 Sensor</h1>";
+  html += "<div style='display:flex; justify-content:center;'>";
+  html += "<div style='margin:20px; text-align:center;'>";
+  html += "<h2>Temperature</h2>";
+  html += "<p style='font-size:48px;'>" + String(bmp.readTemperature(), 1) + " &deg;C</p>";
+  html += "</div>";
+  html += "<div style='margin:20px; text-align:center;'>";
+  html += "<h2>Pressure</h2>";
+  html += "<p style='font-size:48px;'>" + String(bmp.readPressure() / 100.0F) + " hPa</p>";
+  html += "</div>";
+  html += "</div>";
   html += "</body></html>";
 
   // Send the HTML page to the client
   server.send(200, "text/html", html);
 }
+
