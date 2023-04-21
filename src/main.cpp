@@ -1,11 +1,14 @@
 #include <Wire.h>
+#include <Adafruit_GFX.h>
+#include <Adafruit_SSD1306.h>
 #include <Adafruit_Sensor.h>
 #include <Adafruit_BMP085.h>
 #include <WiFi.h>
 #include <WebServer.h>
-#define BMP085_ADDRESS 0x76
 #include <SPI.h>
 #include <WiFiClientSecure.h>
+
+#define BMP085_ADDRESS 0x76
 
 // Replace with your network credentials
 const char* ssid = "VM9840342";
@@ -16,6 +19,9 @@ Adafruit_BMP085 bmp;
 
 // Create an instance of the WebServer
 WebServer server(80);
+
+// Create an instance of the OLED display
+Adafruit_SSD1306 display(128, 64, &Wire, -1);
 
 // Function prototype for handleRoot()
 void handleRoot();
@@ -41,9 +47,27 @@ void setup() {
     while (1);
   }
 
+  // Initialize the OLED display
+  if (!display.begin(SSD1306_SWITCHCAPVCC, 0x3C)) {
+    Serial.println("SSD1306 allocation failed");
+    for (;;);
+  }
+
   // Serve the web page
   server.on("/", handleRoot);
   server.begin();
+
+  // Display a message on the OLED screen
+  display.clearDisplay();
+  display.setTextSize(1);
+  display.setTextColor(WHITE);
+  display.setCursor(0, 0);
+  display.println("Weather Station");
+  display.println("with ESP32 WROOM");
+  display.println("and BMP180 Sensor");
+  display.display();
+  delay(2000);
+  display.clearDisplay();
 }
 
 void loop() {
@@ -54,13 +78,21 @@ void loop() {
   float temperature = bmp.readTemperature();
   float pressure = bmp.readPressure() / 100.0F;
 
-  // Print the readings to the serial monitor
-  Serial.print("Temperature = ");
-  Serial.print(temperature, 1);
-  Serial.println(" °C");
-  Serial.print("Pressure = ");
-  Serial.print(pressure);
-  Serial.println(" hPa");
+  // Display the readings on the OLED screen
+  display.clearDisplay();
+  display.setTextSize(1.5);
+  display.setTextColor(WHITE);
+  display.setCursor(0, 10);
+  display.print("Temperature: ");
+  display.print("\n");
+  display.print(temperature, 1);
+  display.println("C");
+  display.setCursor(0, 40);
+  display.print("Pressure: ");
+  display.print("\n");
+  display.print(pressure);
+  display.println("hPa");
+  display.display();
 
   // Wait for a second before taking the next reading
   delay(1000);
