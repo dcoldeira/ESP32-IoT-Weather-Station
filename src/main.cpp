@@ -1,9 +1,9 @@
+#include <U8g2lib.h>
 #include <Wire.h>
 #include <Adafruit_Sensor.h>
 #include <Adafruit_BMP085.h>
 #include <WiFi.h>
 #include <WebServer.h>
-#define BMP085_ADDRESS 0x76
 #include <SPI.h>
 #include <WiFiClientSecure.h>
 
@@ -16,6 +16,9 @@ Adafruit_BMP085 bmp;
 
 // Create an instance of the WebServer
 WebServer server(80);
+
+// Create an instance of the display
+U8G2_SSD1306_128X32_UNIVISION_F_HW_I2C u8g2(U8G2_R0, /* reset=*/ U8X8_PIN_NONE); 
 
 // Function prototype for handleRoot()
 void handleRoot();
@@ -34,6 +37,14 @@ void setup() {
   // Print the IP address of the board
   Serial.print("IP address: ");
   Serial.println(WiFi.localIP());
+  
+  // Set up the OLED display
+  u8g2.begin();
+  u8g2.setFont(u8g2_font_6x10_tf); 
+  u8g2.clearBuffer();
+  u8g2.setCursor(0, 10);
+  u8g2.print("Hello world!");
+  u8g2.sendBuffer();
 
   // Initialize the BMP180 sensor
   if (!bmp.begin(BMP085_ADDRESS)) {
@@ -41,8 +52,7 @@ void setup() {
     while (1);
   }
 
-  // Serve the web page
-  server.on("/", handleRoot);
+  // Serve the web page\n  server.on("/", handleRoot);
   server.begin();
 }
 
@@ -62,10 +72,21 @@ void loop() {
   Serial.print(pressure);
   Serial.println(" hPa");
 
+  // Display the readings on the OLED display
+  u8g2.clearBuffer();
+  u8g2.setCursor(0, 10);
+  u8g2.print("Temperature = ");
+  u8g2.print(temperature, 1);
+  u8g2.print(" C");
+  u8g2.setCursor(0, 20);
+  u8g2.print("Pressure = ");
+  u8g2.print(pressure);
+  u8g2.print(" hPa");
+  u8g2.sendBuffer();
+
   // Wait for a second before taking the next reading
   delay(1000);
 }
-
 void handleRoot() {
   // Build the HTML page
   String html = "<html><body>";

@@ -2,7 +2,7 @@
 
 # ESP32 IoT Weather Station
 
-This is a weather station project that uses an ESP32 WROOM 32D board and a BMP180 sensor to measure temperature and pressure, and displays the data on a web-based dashboard. The project can be expanded to include other sensors like humidity or wind speed in the future.
+This is a project to build a weather station using the ESP32 microcontroller and various sensors. It is designed to collect data on temperature, pressure, and altitude, and transmit it wirelessly to a server for display and analysis.
 
 ## Features
 
@@ -19,16 +19,19 @@ To use this project, you will need the following:
 - BMP180 sensor
 - Jumper wires
 - Breadboard
+- 0.96 OLED Display Module
 
 Clone this repository using Git:
 https://github.com/dcoldeira/ESP32-IoT-Weather-Station.git
 
 ## Usage
 
-1. Connect the ESP32 board and the BMP180 sensor to the breadboard as described in the project documentation.
-2. Open the project in your preferred IDE and upload the code to the ESP32 board.
-3. Connect to the Wi-Fi network using the ESP32 board.
-4. Access the web-based dashboard to view the temperature and pressure readings.
+This repository is part of a serie of posts on the [C++ Circuits](https://dcoldeira.github.io/) blog
+
+
+1. For building the BMP180 sensor, follow [these steps](https://dcoldeira.github.io/projects/ESP32-Temperature-Sensor/)
+2. building the 0.96 OLED Display Module, Follow [these steps](https://dcoldeira.github.io/projects/XTVTX-module-weather-station-II/)
+
 
 ## Contributing
 
