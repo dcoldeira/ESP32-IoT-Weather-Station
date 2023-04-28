@@ -12,8 +12,8 @@
 #define BMP085_ADDRESS 0x76
 
 // Replace with your network credentials
-const char* ssid = "VM9840342";
-const char* password = "gmjy3VwBvwrk";
+const char* ssid = "xxx";
+const char* password = "xxx";
 
 // Create an instance of the BMP180 sensor
 Adafruit_BMP085 bmp;
